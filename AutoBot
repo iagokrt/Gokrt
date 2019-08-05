@@ -1,0 +1,40 @@
+﻿import speech_recognition as sr
+
+
+def abrirportal():
+
+    from selenium import webdriver
+
+    usuario = '2297701701'
+    senha = '***'
+
+    url = 'https://colaboraread.com.br/login/auth'
+
+    driver = webdriver.Chrome(r"C:\Users\iago_\Desktop\Scripts Python\Selenium\chromedriver_win32\chromedriver.exe")
+
+    driver.get(url)
+
+    driver.find_element_by_name('username').send_keys(usuario)
+    driver.find_element_by_name('password').send_keys(senha)
+    driver.find_element_by_class_name('btn-block').click()
+
+    driver.exit()
+
+
+# get audio from the microphone
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print("Olá, estou pronto para ajudar! Pode falar agora")
+    audio = r.listen(source)
+
+try:
+    print("Processando... Por favor aguarde")
+    print("Você diz: " + r.recognize_google(audio,language='pt-BR'))
+    if r.recognize_google(audio,language='pt-BR')=="estudar":
+        abrirportal()
+
+
+except sr.UnknownValueError:
+    print("Não pude entender, fale em portugûes")
+except sr.RequestError as e:
+    print("Could not request results; {0}".format(e))
